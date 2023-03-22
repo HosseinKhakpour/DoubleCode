@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\DoubleCode.Application\DoubleCode.Application.csproj" />
+  </ItemGroup>
+
 </Project>
