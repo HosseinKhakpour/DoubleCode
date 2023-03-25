@@ -1,10 +1,11 @@
-﻿using DoubleCode.Domain.Entity.Permissions;
+﻿using DoubleCode.Application.Common.Interfaces;
+using DoubleCode.Domain.Entity.Permissions;
 using DoubleCode.Domain.Entity.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoubleCode.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
