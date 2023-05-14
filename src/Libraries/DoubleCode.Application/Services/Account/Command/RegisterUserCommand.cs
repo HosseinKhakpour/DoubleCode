@@ -1,7 +1,9 @@
-﻿using DoubleCode.Application.Common.Interfaces;
+﻿using AutoMapper;
+using DoubleCode.Application.Common.Interfaces;
 using DoubleCode.Application.Common.Utilities.Security;
 using DoubleCode.Application.Services.Account.ViewModel;
 using DoubleCode.Domain.Base;
+using DoubleCode.Domain.Entity.User;
 using MediatR;
 
 namespace DoubleCode.Application.Services.Account.Command;
@@ -15,13 +17,15 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
     #region Property
     private readonly ISecurityService _securityService;
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
     #endregion
 
     #region Ctor
-    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context)
+    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper)
     {
         _securityService = securityService;
         _context = context;
+        _mapper=mapper;
     }
     #endregion
 
@@ -30,16 +34,30 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
     {
         try
         {
-            var hassPassword = _securityService.HashPassword(request.RegisterUser_VM.Password);
-            var user = await _context.User.AddAsync();
-            await _context.SaveChangesAsync();
-            return true;
+            User user = _mapper.Map<User>(request.RegisterUser_VM);
+            user.Password =_securityService.HashPassword(request.RegisterUser_VM.Password);
+
+            await _context.User.AddAsync(user);
+            await _context.SaveChangesAsync(cancellationToken);
+            return new BaseResult_VM<bool>
+            {
+                Result =true,
+                Code=0,
+                Message ="ثبت نام با موفقیت انجام شد"
+                 
+            };
         }
         catch (Exception ex)
         {
             var m = ex.Message;
 
-            return false;
+            return new BaseResult_VM<bool>
+            {
+                Result =true,
+                Code=0,
+                Message ="ثبت نام با موفقیت انجام شد"
+
+            };
         }
     }
     #endregion

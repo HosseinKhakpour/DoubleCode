@@ -12,13 +12,6 @@ public class User : BaseAuditableEntity
 
     public bool IsBlocked { get; set; }
 
-    #region Auditable
-
-    public DateTime CreateDate { get; set; }
-    public DateTime? LastModifyDate { get; set; }
-
-    #endregion
-
     #region Relations
     public List<UserRole> UserRoles { get; set; }
     #endregion

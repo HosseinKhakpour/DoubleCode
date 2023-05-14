@@ -28,7 +28,7 @@ public class RegisterUser_VM
     [Compare("Password", ErrorMessage = "کلمه های عبور مغایرت دارند")]
     public string RePassword { get; set; }
 
-    public DateTime CreateDate { get; set; }
+    public DateTime Created { get; set; }
 
 }
 
