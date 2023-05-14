@@ -23,7 +23,13 @@ public class Handler : IRequestHandler<NonClass, BaseResult_VM<bool>>
     #region Method
     public async Task<BaseResult_VM<bool>> Handle(NonClass request, CancellationToken cancellationToken)
     {
-        return null;
+        return new BaseResult_VM<bool>
+        {
+            Result = true,
+            Code =0,
+            Message ="",
+
+        };
     }
 
     #endregion

@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Account\Query\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DoubleCode.Domain\DoubleCode.Domain.csproj" />
   </ItemGroup>
 
