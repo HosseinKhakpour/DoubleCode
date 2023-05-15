@@ -19,6 +19,7 @@ public class CheckDuplicatedUserNameQueryHandler : IRequestHandler<CheckDuplicat
     public CheckDuplicatedUserNameQueryHandler(IApplicationDbContext context)
     {
         _context = context;
+
     }
     #endregion
 
