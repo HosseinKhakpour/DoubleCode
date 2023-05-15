@@ -21,6 +21,7 @@ public class CheckDuplicatedUserNameQueryHandler : IRequestHandler<CheckDuplicat
         _context = context;
 
     }
+
     #endregion
 
     #region Method
