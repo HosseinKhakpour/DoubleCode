@@ -1,12 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DoubleCode.Application.Common.Interfaces;
+using DoubleCode.Application.Common.Utilities.Security;
+using DoubleCode.Domain.Base;
+using DoubleCode.Domain.Entity.User;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace DoubleCode.Application.Services.Account.Query
+namespace DoubleCode.Application.Services.Account.Query;
+
+public class CheckEmailAndPasswordMatch : IRequest<BaseResult_VM<bool>>
 {
-    internal class CheckEmailAndPasswordMatchQuery
-    {
-    }
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
+public class CheckEmailAndPasswordMatchQueryHandler : IRequestHandler<CheckEmailAndPasswordMatch, BaseResult_VM<bool>>
+{
+    #region Property
+    private readonly IApplicationDbContext _context;
+    private readonly ISecurityService _security;
+    #endregion
+
+    #region Ctor
+    public CheckEmailAndPasswordMatchQueryHandler(IApplicationDbContext context, ISecurityService security)
+    {
+        _context = context;
+        _security=security;
+    }
+    #endregion
+
+    #region Method
+    public async Task<BaseResult_VM<bool>> Handle(CheckEmailAndPasswordMatch request, CancellationToken cancellationToken)
+    {
+        User? user = await _context.User.SingleOrDefaultAsync(c => c.Email == request.Email);
+
+        if (user == null)
+        {
+            return new BaseResult_VM<bool>
+            {
+                Result = false,
+                Code =-1,
+                Message ="کاربری با این ایمیل یافت نشد",
+
+            };
+        }
+        bool isMatch = _security.VerifyHashedPassword(user.Password, request.Password);
+        if (isMatch)
+        {
+            return new BaseResult_VM<bool>
+            {
+                Result =isMatch,
+                Code =0,
+                Message ="کاربر مجاز است ",
+
+            };
+        }
+        return new BaseResult_VM<bool>
+        {
+            Result =isMatch,
+            Code =-1,
+            Message ="ایمیل و رمز عبور مطابفقت ندارد",
+
+        };
+    }
+
+    #endregion
+}
+
+
