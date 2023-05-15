@@ -39,9 +39,9 @@ public class CheckEmailAndPasswordMatchQueryHandler : IRequestHandler<CheckEmail
                 Result = false,
                 Code =-1,
                 Message ="کاربری با این ایمیل یافت نشد",
-
             };
         }
+        
         bool isMatch = _security.VerifyHashedPassword(user.Password, request.Password);
         if (isMatch)
         {
@@ -50,7 +50,6 @@ public class CheckEmailAndPasswordMatchQueryHandler : IRequestHandler<CheckEmail
                 Result =isMatch,
                 Code =0,
                 Message ="کاربر مجاز است ",
-
             };
         }
         return new BaseResult_VM<bool>
@@ -58,7 +57,6 @@ public class CheckEmailAndPasswordMatchQueryHandler : IRequestHandler<CheckEmail
             Result =isMatch,
             Code =-1,
             Message ="ایمیل و رمز عبور مطابفقت ندارد",
-
         };
     }
 
