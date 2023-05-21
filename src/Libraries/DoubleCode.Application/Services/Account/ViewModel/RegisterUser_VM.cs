@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DoubleCode.Application.Common.Utilities.AutoMapper;
+using DoubleCode.Domain.Entity.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace DoubleCode.Application.Services.Account.ViewModel;
 
-public class RegisterUser_VM
+public class RegisterUser_VM : IMapFrom<User>
 {
     public long Id { get; set; }
 
@@ -27,6 +29,8 @@ public class RegisterUser_VM
     [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
     [Compare("Password", ErrorMessage = "کلمه های عبور مغایرت دارند")]
     public string RePassword { get; set; }
+
+    public bool IsEmailAtive { get; set; }
 
     public DateTime Created { get; set; }
 

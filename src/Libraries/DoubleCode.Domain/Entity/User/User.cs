@@ -12,6 +12,9 @@ public class User : BaseAuditableEntity
 
     public bool IsBlocked { get; set; }
 
+    public bool IsEmailAtive { get; set; }
+    public string EmailActiveCode { get; set; }
+
     #region Relations
     public List<UserRole> UserRoles { get; set; }
     #endregion

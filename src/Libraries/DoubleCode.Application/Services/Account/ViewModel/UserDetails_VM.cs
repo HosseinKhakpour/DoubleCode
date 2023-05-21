@@ -15,6 +15,8 @@ namespace DoubleCode.Application.Services.Account.ViewModel
         public string? Email { get; set; }
         public string? Password { get; set; }
         public bool? IsBlocked { get; set; }
+        public bool IsEmailAtive { get; set; }
+        public string EmailActiveCode { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? LastModified { get; set; }
     }
