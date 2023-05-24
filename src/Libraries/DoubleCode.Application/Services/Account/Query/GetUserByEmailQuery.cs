@@ -1,6 +1,5 @@
-﻿
-using AutoMapper;
-using DoubleCode.Application.Common.Interfaces;a
+﻿using AutoMapper;
+using DoubleCode.Application.Common.Interfaces;
 using DoubleCode.Application.Services.Account.ViewModel;
 using DoubleCode.Domain.Base;
 using DoubleCode.Domain.Entity.User;
