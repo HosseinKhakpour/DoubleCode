@@ -6,16 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Reflection;
 
-namespace DoubleCode.Infrastructure;
+namespace DoubleCode.WebUI;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddWebUIServices(this IServiceCollection services)
     {
-        services.AddDbContext<ApplicationDbContext>(option =>
-        {
-            option.UseSqlServer(configuration.GetConnectionString("DoubleCodeConnection"));
-        });
         return services;
     }
 }
