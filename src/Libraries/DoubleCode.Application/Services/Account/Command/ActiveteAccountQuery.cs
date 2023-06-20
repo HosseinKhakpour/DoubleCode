@@ -8,7 +8,7 @@ namespace DoubleCode.Application.Services.Account.Command;
 
 public class ActiveteAccountQuery : IRequest<BaseResult_VM<bool>>
 {
-    public  string EmailActivCode { get; set; }
+    public  string? EmailActivCode { get; set; }
 }
 public class ActiveteAccountQueryHandler : IRequestHandler<ActiveteAccountQuery, BaseResult_VM<bool>>
 {
