@@ -1,17 +1,83 @@
-using System.Runtime.InteropServices;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-// In SDK-style projects such as this one, several assembly attributes that were historically
-// defined in this file are now automatically added during build and populated with
-// values defined in project properties. For details of which attributes are included
-// and how to customise this process see: https://aka.ms/assembly-info-properties
+namespace DoubleCode.WebUI.Controllers
+{
+    public class HomeController : Controller
+    {
+        // GET: HomeController
+        public ActionResult Index()
+        {
+            return View();
+        }
 
+        // GET: HomeController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
 
-// Setting ComVisible to false makes the types in this assembly not visible to COM
-// components.  If you need to access a type in this assembly from COM, set the ComVisible
-// attribute to true on that type.
+        // GET: HomeController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-[assembly: ComVisible(false)]
+        // POST: HomeController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM.
+        // GET: HomeController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
 
-[assembly: Guid("12085dc9-765e-43d4-8690-8be38ee4a279")]
+        // POST: HomeController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: HomeController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: HomeController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

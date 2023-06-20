@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using MediatR;
-using DoubleCode.Application.Services.Account.ViewModel;
-using DoubleCode.Application.Services.Account.Query;
-using DoubleCode.Domain.Base;
-using Microsoft.Win32;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System.Security.Claims;
 using DoubleCode.Application.Services.Account.Command;
+using DoubleCode.Application.Services.Account.Query;
+using DoubleCode.Application.Services.Account.ViewModel;
+using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DoubleCode.WebAPI.Controllers
 {
@@ -19,34 +16,34 @@ namespace DoubleCode.WebAPI.Controllers
 
         public AccountController(IMediator mediator)
         {
-            _mediator=mediator;
+            _mediator = mediator;
         }
 
         #region Login
+
         [Route("login")]
         public IActionResult Login()
         {
             return View();
         }
+
         [Route("login")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUser_VM model)
         {
-
-            var checkMatch = await _mediator.Send(new CheckEmailAndPasswordMatch { Email =model.Email, Password=model.Password });
+            var checkMatch = await _mediator.Send(new CheckEmailAndPasswordMatch { Email = model.Email, Password = model.Password });
             if (checkMatch.Result == false)
                 ModelState.AddModelError(model.Password, checkMatch.Message);
 
             if (ModelState.IsValid)
             {
-                var user = await _mediator.Send(new GetUserByEmailQuery { Email =model.Email });
+                var user = await _mediator.Send(new GetUserByEmailQuery { Email = model.Email });
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.Result.Id.ToString()),
                     new Claim(ClaimTypes.Name,user.Result.UserName),
                     new Claim(ClaimTypes.Email,user.Result.Email)
-
                 };
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
@@ -57,13 +54,14 @@ namespace DoubleCode.WebAPI.Controllers
                 await HttpContext.SignInAsync(principal, properties);
 
                 return RedirectToAction("Index", "Home");
-
             }
             return View(model);
         }
-        #endregion
+
+        #endregion Login
 
         #region Register
+
         [Route("register")]
         public IActionResult Register()
         {
@@ -87,7 +85,7 @@ namespace DoubleCode.WebAPI.Controllers
                 if (checkUserName.Result == false)
                     ModelState.AddModelError(nameof(register.UserName), checkUserName.Message);
 
-                 await _mediator.Send(new RegisterUserCommand { RegisterUser_VM = register});
+                await _mediator.Send(new RegisterUserCommand { RegisterUser_VM = register });
             }
             else
             {
@@ -99,23 +97,24 @@ namespace DoubleCode.WebAPI.Controllers
 
             return RedirectToAction("Login", "Account");
         }
-        #endregion
+
+        #endregion Register
 
         #region Logout
+
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        #endregion
+
+        #endregion Logout
 
         [Route("AccessDenied")]
         public IActionResult AccessDenied()
         {
             return View();
         }
-
     }
-
 }
