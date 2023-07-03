@@ -8,6 +8,7 @@ public static class ConfigureServices
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddMediatR(Assembly.GetExecutingAssembly());
 
         // Add any other services needed for the application
 

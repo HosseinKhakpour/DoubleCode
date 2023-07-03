@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DoubleCode.WebAPI.Controllers
+namespace DoubleCode.WebUI.Controllers
 {
-    [Route("auth")]
     public class AccountController : Controller
     {
-        public IMediator _mediator { get; }
+        public IMediator _mediator;
 
         public AccountController(IMediator mediator)
         {
@@ -30,7 +29,7 @@ namespace DoubleCode.WebAPI.Controllers
         [Route("login")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginUser_VM model)
+        public async Task<IActionResult> Login([FromForm] LoginUser_VM model)
         {
             var checkMatch = await _mediator.Send(new CheckEmailAndPasswordMatch { Email = model.Email, Password = model.Password });
             if (checkMatch.Result == false)
@@ -71,7 +70,7 @@ namespace DoubleCode.WebAPI.Controllers
         [Route("register")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterUser_VM register)
+        public async Task<IActionResult> Register([FromForm] RegisterUser_VM register)
         {
             if (ModelState.IsValid)
             {

@@ -14,22 +14,27 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddWebUIServices();
-builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
+
+builder.Services.AddMediatR(typeof(Program).Assembly);
+
+
 
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
 
+}
+
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapControllerRoute(
       name: "defult",
-      pattern: "/{controller=Home}/{action=Index}/{id?}");
+      pattern: "{controller=Home}/{action=Index}/{id?}");
 
 }); app.Run();
