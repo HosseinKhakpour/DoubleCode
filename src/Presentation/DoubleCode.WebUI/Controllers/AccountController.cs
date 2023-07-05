@@ -90,7 +90,7 @@ namespace DoubleCode.WebUI.Controllers
             {
                 return View(register);
             }
-
+             
             //TODO: Activation Send Email
             //TODO: Redirect to succssesfullView
 
