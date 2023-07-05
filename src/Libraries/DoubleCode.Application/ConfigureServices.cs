@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using DoubleCode.Application.Common.Utilities.Security;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -9,6 +10,7 @@ public static class ConfigureServices
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddScoped<ISecurityService, SecurityService>();
 
         // Add any other services needed for the application
 

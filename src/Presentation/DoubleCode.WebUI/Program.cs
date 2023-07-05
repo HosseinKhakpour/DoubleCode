@@ -9,15 +9,10 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddWebUIServices();
-
-builder.Services.AddMediatR(typeof(Program).Assembly);
-
-
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
