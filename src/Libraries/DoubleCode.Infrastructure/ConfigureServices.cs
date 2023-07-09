@@ -12,6 +12,12 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+
+        /*   
+
+         Add-Migration Name -OutputDir Migrations -Context ApplicationDbContext -Project DoubleCode.Infrastructure
+          Update-Database  -Context ApplicationDbContext 
+         */
         services.AddDbContext<ApplicationDbContext>(option =>
         {
             option.UseSqlServer(configuration.GetConnectionString("DoubleCodeConnection"));
