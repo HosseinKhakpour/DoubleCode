@@ -9,8 +9,7 @@ public class RolePermission : BaseEntity
     public int RoleId { get; set; }
     public string PermissionTitle { get; set; }
     public string PermissionName { get; set; }
-    public long
-        ? ParentId { get; set; }
+    public long? ParentId { get; set; }
 
     #region Relations
 
