@@ -1,8 +1,8 @@
 ﻿using DoubleCode.Domain.Base;
-
+using Microsoft.AspNetCore.Identity;
 namespace DoubleCode.Domain.Entity.User;
 
-public class User : BaseAuditableEntity
+public class User  : IdentityUser
 {
     public string UserName { get; set; }
     public string Email { get; set; }

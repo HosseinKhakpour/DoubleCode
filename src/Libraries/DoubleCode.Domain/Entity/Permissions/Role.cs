@@ -1,9 +1,10 @@
 ﻿using DoubleCode.Domain.Base;
 using DoubleCode.Domain.Entity.User;
+using Microsoft.AspNetCore.Identity;
 
 namespace DoubleCode.Domain.Entity.Permissions;
 
-public class Role : BaseEntity
+public class Role : IdentityRole
 {
     public string RoleTitle { get; set; }
 

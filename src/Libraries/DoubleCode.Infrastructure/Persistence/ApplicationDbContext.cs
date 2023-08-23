@@ -1,11 +1,13 @@
 ﻿using DoubleCode.Application.Common.Interfaces;
 using DoubleCode.Domain.Entity.Permissions;
 using DoubleCode.Domain.Entity.User;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoubleCode.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
 {
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -27,10 +29,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
-        modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDeleted);
+        //modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+        //modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDeleted);
         modelBuilder.Entity<UserRole>().HasQueryFilter(u => !u.IsDeleted);
-        modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
 
         base.OnModelCreating(modelBuilder);
     }
