@@ -19,15 +19,17 @@ public static class ConfigureServices
         /*   
 
          Add-Migration Name -OutputDir Migrations -Context ApplicationDbContext -Project DoubleCode.Infrastructure
-          Update-Database  -Context ApplicationDbContext 
-        dotnet ef migrations add migrationsname -p DoubleCode.Infrastructure -s DoubleCode.WebUI --context ApplicationDbContext
+         Update-Database  -Context ApplicationDbContext 
+         dotnet ef migrations add migrationsname -p DoubleCode.Infrastructure -s DoubleCode.WebUI --context ApplicationDbContext
+
          */
+
         services.AddDbContext<ApplicationDbContext>(option =>
         {
             option.UseSqlServer(configuration.GetConnectionString("DoubleCodeConnection"));
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        services.AddIdentity<User,Role>().AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>();
 
         return services;
 
