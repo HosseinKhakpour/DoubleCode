@@ -27,7 +27,7 @@ public class AddRoleCommandHandler : IRequestHandler<AddRoleCommand, BaseResult_
     {
         var role = new Role
         {
-            RoleTitle = request.RoleTitle ?? "بدون عنوان",
+            Name = request.RoleTitle ?? "بدون عنوان",
         };
         await context.Role.AddAsync(role);
         await context.SaveChangesAsync(cancellationToken);

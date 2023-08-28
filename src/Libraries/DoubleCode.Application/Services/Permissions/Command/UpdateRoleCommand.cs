@@ -9,7 +9,7 @@ namespace DoubleCode.Application.Services.Permissions.Command;
 
 public class UpdateRoleCommand : IRequest<BaseResult_VM<bool>>
 {
-    public string? RoleId { get; set; }
+    public int? RoleId { get; set; }
     public string? RoleTitle { get; set; }
 }
 public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, BaseResult_VM<bool>>
@@ -31,13 +31,13 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, BaseR
     public async Task<BaseResult_VM<bool>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
 
-        Role? role = await context.Role.FirstOrDefaultAsync(r => r.Id== request.RoleId);
+        Role? role = await context.Role.FirstOrDefaultAsync(r => r.Id == request.RoleId);
         if (role == null)
             return new BaseResult_VM<bool> { Result = false, Code = -1, };
 
         //TODO :Remove Permissions this Role
 
-        role.RoleTitle = request.RoleTitle ?? "بدون عنوان ";
+        role.Name = request.RoleTitle ?? "بدون عنوان ";
         context.Role.Update(role);
         await context.SaveChangesAsync(cancellationToken);
 

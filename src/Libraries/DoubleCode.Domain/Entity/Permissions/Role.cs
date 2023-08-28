@@ -4,12 +4,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DoubleCode.Domain.Entity.Permissions;
 
-public class Role : IdentityRole
+public class Role : IdentityRole<int>
 {
-    public string RoleTitle { get; set; }
-
     #region Relations
-    public ICollection<UserRole> UserRoles { get; set; }
     public ICollection<RolePermission> RolePermissions { get; set; }
     #endregion
 }

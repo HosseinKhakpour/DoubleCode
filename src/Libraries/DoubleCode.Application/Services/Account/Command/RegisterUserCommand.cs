@@ -35,7 +35,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
         try
         {
             User user = _mapper.Map<User>(request.RegisterUser_VM);
-            user.Password =_securityService.HashPassword(request.RegisterUser_VM.Password);
+          //  user.Password =_securityService.HashPassword(request.RegisterUser_VM.Password);
 
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync(cancellationToken);

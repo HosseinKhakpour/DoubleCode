@@ -26,11 +26,11 @@ public class ActiveteAccountQueryHandler : IRequestHandler<ActiveteAccountQuery,
     #region Method
     public async Task<BaseResult_VM<bool>> Handle(ActiveteAccountQuery request, CancellationToken cancellationToken)
     {
-       var user = await _context.User.FirstAsync( u=>u.EmailActiveCode == request.EmailActivCode);
-        if(user == null)
-        {
+       //var user = await _context.User.FirstAsync( u=>u. == request.EmailActivCode);
+       // if(user == null)
+       // {
             
-        }
+       // }
 
         return new BaseResult_VM<bool>
         {
