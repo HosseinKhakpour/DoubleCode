@@ -8,8 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoubleCode.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext
-                                    <
+public class ApplicationDbContext : IdentityDbContext<
                                     User,
                                     Role,
                                     int,
@@ -17,27 +16,23 @@ public class ApplicationDbContext : IdentityDbContext
                                     UserRole,
                                     IdentityUserLogin<int>,
                                     IdentityRoleClaim<int>,
-                                    IdentityUserToken<int>
-                                    >,
+                                    IdentityUserToken<int>>,
                                     IApplicationDbContext
 {
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
+
     }
 
     #region User
     public DbSet<User> User { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
-
     #endregion
 
     #region Permission
     public DbSet<Role> Role { get; set; }
     public DbSet<RolePermission> RolePermission { get; set; }
-
     #endregion
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

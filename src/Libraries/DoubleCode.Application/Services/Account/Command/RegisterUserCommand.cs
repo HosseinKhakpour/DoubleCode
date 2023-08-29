@@ -5,6 +5,7 @@ using DoubleCode.Application.Services.Account.ViewModel;
 using DoubleCode.Domain.Base;
 using DoubleCode.Domain.Entity.User;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace DoubleCode.Application.Services.Account.Command;
 
@@ -18,14 +19,16 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
     private readonly ISecurityService _securityService;
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
+    private readonly UserManager<User> userManager;
     #endregion
 
     #region Ctor
-    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper)
+    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper ,UserManager<User> userManager)
     {
         _securityService = securityService;
         _context = context;
         _mapper=mapper;
+        this.userManager = userManager;
     }
     #endregion
 
@@ -35,30 +38,31 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
         try
         {
             User user = _mapper.Map<User>(request.RegisterUser_VM);
-          //  user.Password =_securityService.HashPassword(request.RegisterUser_VM.Password);
+          var registerUser = await userManager.CreateAsync(user,request.RegisterUser_VM.Password);
 
-            await _context.User.AddAsync(user);
-            await _context.SaveChangesAsync(cancellationToken);
-            return new BaseResult_VM<bool>
+            if (registerUser.Succeeded)
             {
-                Result =true,
-                Code=0,
-                Message ="ثبت نام با موفقیت انجام شد"
-                 
-            };
+                return new BaseResult_VM<bool>
+                {
+                    Result = true,
+                    Code = 0,
+                    Message = "ثبت نام با موفقیت انجام شد"
+                };
+            }
+
         }
         catch (Exception ex)
         {
             var m = ex.Message;
-
-            return new BaseResult_VM<bool>
-            {
-                Result =true,
-                Code=0,
-                Message ="ثبت نام با موفقیت انجام شد"
-
-            };
         }
+
+        return new BaseResult_VM<bool>
+        {
+            Result = true,
+            Code = 0,
+            Message = "ثبت نام با موفقیت انجام شد"
+
+        };
     }
     #endregion
 }
