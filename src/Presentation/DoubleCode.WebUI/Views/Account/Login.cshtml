@@ -23,14 +23,14 @@
                 <div class="card login-page bg-white shadow rounded border-0" >
                     <div class="card-body">
                         <h4 class="card-title text-center">وارد شدن </h4>
-                        <form  method="post" class="login-form mt-4" novalidate >
+                        <form asp-controller="Account" asp-action="Login" asp-route-returneURL="returneURL" method="post" class="login-form mt-4" novalidate>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <label class="form-label">ایمیل شما <span class="text-danger">*</span></label>
+                                        <label class="form-label">نام کاربری شما <span class="text-danger">*</span></label>
                                         <div class="form-icon position-relative">
                                             <i data-feather="mail" class="fea icon-sm icons"></i>
-                                            <input asp-for="Email" class="form-control ps-5" placeholder="ایمیل" >
+                                            <input asp-for="UserName" class="form-control ps-5" placeholder="نام کاربری" >
                                               
                                         </div>
                                     </div>

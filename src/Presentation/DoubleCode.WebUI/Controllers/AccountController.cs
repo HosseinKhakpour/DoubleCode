@@ -5,6 +5,7 @@ using DoubleCode.Application.Services.Account.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoubleCode.WebUI.Controllers
@@ -21,25 +22,25 @@ namespace DoubleCode.WebUI.Controllers
         #region Login
 
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(string? retutnURL)
         {
+            ViewData["retutnURL"] = retutnURL;
             return View();
         }
 
         [Route("login")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromForm] LoginUser_VM model)
+        public async Task<IActionResult> Login([FromForm] LoginUser_VM model, string retutnURL)
         {
-
-
-            var checkMatch = await _mediator.Send(new CheckEmailAndPasswordMatch { Email = model.Email, Password = model.Password });
-            if (checkMatch.Result == false)
+            var checkMatch = await _mediator.Send(new CheckUserNameAndPasswordMatchQuery { LoginUser_VM = model });
+            if (checkMatch.Code != 0)
                 ModelState.AddModelError(model.Password, checkMatch.Message);
 
+            ViewData["retutnURL"] = retutnURL;
             if (ModelState.IsValid)
             {
-                var user = await _mediator.Send(new GetUserByEmailQuery { Email = model.Email });
+                var user = await _mediator.Send(new GetUserByUserNameQuery { UserName = model.UserName });
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.Result.Id.ToString()),
@@ -53,6 +54,9 @@ namespace DoubleCode.WebUI.Controllers
                     IsPersistent = model.RememberMe
                 };
                 await HttpContext.SignInAsync(principal, properties);
+
+                if (string.IsNullOrEmpty(retutnURL) is false && Url.IsLocalUrl(retutnURL))
+                    return RedirectToAction(retutnURL);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -92,7 +96,7 @@ namespace DoubleCode.WebUI.Controllers
             {
                 return View(register);
             }
-             
+
             //TODO: Activation Send Email
             //TODO: Redirect to succssesfullView
 
@@ -104,13 +108,32 @@ namespace DoubleCode.WebUI.Controllers
         #region Logout
 
         [Route("logout")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await _mediator.Send(new LogOutUserQuery { });
             return RedirectToAction("Index", "Home");
         }
 
         #endregion Logout
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IsUserNameInUse(string userName)
+        {
+           var user = await _mediator.Send(new GetUserByUserNameQuery { UserName = userName });
+            if (user == null) return Json(true);
+            return Json("نام کاربری وارد شده از قبل موجود است");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var user = await _mediator.Send(new GetUserByEmailQuery { Email = email });
+            if (user == null) return Json(true);
+            return Json("ایمیل وارد شده از قبل موجود است");
+        }
 
         [Route("AccessDenied")]
         public IActionResult AccessDenied()

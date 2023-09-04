@@ -12,11 +12,10 @@ namespace DoubleCode.Application.Services.Account.ViewModel
 {
     public class LoginUser_VM :IMapFrom<User>
     {
-        [Display(Name = "ایمیل")]
+        [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        [EmailAddress(ErrorMessage = "ایمیل وارد شده صحیح نمی باشد")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

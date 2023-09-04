@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleCode.Application", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleCode.Infrastructure", "Libraries\DoubleCode.Infrastructure\DoubleCode.Infrastructure.csproj", "{9524E890-AA9F-4ED5-9589-F6336AA322A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleCode.WebUI", "Presentation\DoubleCode.WebUI\DoubleCode.WebUI.csproj", "{E79D1969-FE6C-47CF-8681-0B191AFE0AC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleCode.WebUI", "Presentation\DoubleCode.WebUI\DoubleCode.WebUI.csproj", "{E79D1969-FE6C-47CF-8681-0B191AFE0AC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
