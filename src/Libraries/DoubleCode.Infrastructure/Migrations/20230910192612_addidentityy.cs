@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DoubleCode.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _6uj6i6i : Migration
+    public partial class addidentityy : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,12 +78,12 @@ namespace DoubleCode.Infrastructure.Migrations
                 name: "RolePermission",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     PermissionTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PermissionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentId = table.Column<long>(type: "bigint", nullable: true),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

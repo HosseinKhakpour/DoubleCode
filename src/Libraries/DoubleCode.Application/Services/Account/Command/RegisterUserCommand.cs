@@ -23,11 +23,11 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
     #endregion
 
     #region Ctor
-    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper ,UserManager<User> userManager)
+    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
     {
         _securityService = securityService;
         _context = context;
-        _mapper=mapper;
+        _mapper = mapper;
         this.userManager = userManager;
     }
     #endregion
@@ -38,7 +38,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
         try
         {
             User user = _mapper.Map<User>(request.RegisterUser_VM);
-          var registerUser = await userManager.CreateAsync(user,request.RegisterUser_VM.Password);
+            var registerUser = await userManager.CreateAsync(user, request.RegisterUser_VM.Password);
 
             if (registerUser.Succeeded)
             {
@@ -50,6 +50,23 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
                 };
             }
 
+            if (registerUser.Errors.Count() != 0)
+            {
+                List<string> erroreMassage = new();
+                foreach (var error in registerUser.Errors)
+                {
+                    erroreMassage.Add(error.Description);
+                }
+                var bb = registerUser.Errors.ToList();
+
+                return new BaseResult_VM<bool>
+                {
+                    Result = false,
+                    Code = -1,
+                    Message = erroreMassage.First()
+
+                };
+            }
         }
         catch (Exception ex)
         {

@@ -32,17 +32,16 @@ public class CheckDuplicatedUserNameQueryHandler : IRequestHandler<CheckDuplicat
         {
             return new BaseResult_VM<bool>
             {
-                Result = true,
-                Code =0,
-                Message ="",
+                Result = false,
+                Code =-1,
+                Message = "این نام کاربری تکراری است",
             };
         }
 
         return new BaseResult_VM<bool>
         {
-            Result = false,
-            Code =-1,
-            Message ="این نام کاربری تکراری است",
+            Result = true,
+            Code =0,
         };
     }
 

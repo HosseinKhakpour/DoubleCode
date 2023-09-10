@@ -41,6 +41,21 @@ public class ApplicationDbContext : IdentityDbContext<
         //modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
         //modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDeleted);
 
+        modelBuilder.Entity<User>(b =>
+        {
+            b.HasMany<UserRole>(u => u.UserRoles)
+                .WithOne(ur => ur.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Role>(b =>
+        {
+            b.HasMany<UserRole>(r => r.UserRoles)
+                .WithOne(ur => ur.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+        });
         modelBuilder.ApplyConfiguration(new UserConfigs());
         modelBuilder.ApplyConfiguration(new UserRoleConfigs());
         modelBuilder.ApplyConfiguration(new RoleConfigs());

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoubleCode.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230828174236_6uj6i6i")]
-    partial class _6uj6i6i
+    [Migration("20230910192612_addidentityy")]
+    partial class addidentityy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,17 +57,17 @@ namespace DoubleCode.Infrastructure.Migrations
 
             modelBuilder.Entity("DoubleCode.Domain.Entity.Permissions.RolePermission", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("ParentId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PermissionName")
                         .IsRequired()
@@ -280,17 +280,21 @@ namespace DoubleCode.Infrastructure.Migrations
 
             modelBuilder.Entity("DoubleCode.Domain.Entity.User.UserRole", b =>
                 {
-                    b.HasOne("DoubleCode.Domain.Entity.Permissions.Role", null)
-                        .WithMany()
+                    b.HasOne("DoubleCode.Domain.Entity.Permissions.Role", "Role")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoubleCode.Domain.Entity.User.User", null)
-                        .WithMany()
+                    b.HasOne("DoubleCode.Domain.Entity.User.User", "User")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -332,11 +336,18 @@ namespace DoubleCode.Infrastructure.Migrations
             modelBuilder.Entity("DoubleCode.Domain.Entity.Permissions.Role", b =>
                 {
                     b.Navigation("RolePermissions");
+
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("DoubleCode.Domain.Entity.Permissions.RolePermission", b =>
                 {
                     b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("DoubleCode.Domain.Entity.User.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

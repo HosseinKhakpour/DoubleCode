@@ -90,7 +90,9 @@ namespace DoubleCode.WebUI.Controllers
                 if (checkUserName.Result == false)
                     ModelState.AddModelError(nameof(register.UserName), checkUserName.Message);
 
-                await _mediator.Send(new RegisterUserCommand { RegisterUser_VM = register });
+              var regisrer =  await _mediator.Send(new RegisterUserCommand { RegisterUser_VM = register });
+                if (regisrer.Result == false)
+                    ModelState.AddModelError(nameof(register.UserName), checkUserName.Message);
             }
             else
             {

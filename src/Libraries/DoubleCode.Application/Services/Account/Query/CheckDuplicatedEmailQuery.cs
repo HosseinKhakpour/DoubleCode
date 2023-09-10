@@ -35,17 +35,17 @@ public class CheckDuplicatedEmailQueryHandler : IRequestHandler<CheckDuplicatedE
         {
             return new BaseResult_VM<bool>
             {
-                Result = true,
+                Result = false,
                 Code =0,
-                Message ="",
+                Message = "کاربر با این ایمیل وجود دارد ",
             };
         }
 
         return new BaseResult_VM<bool>
         {
-            Result = false,
+            Result = true,
             Code =-1,
-            Message ="کاربر با این ایمیل وجود دارد ",
+            Message = "کاربر با این ایمیل وجود ندارد"
         };
     }
 

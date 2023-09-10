@@ -15,10 +15,7 @@ public static class ConfigureServices
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<ISecurityService, SecurityService>();
-        services.AddIdentity<User, Role>(Options =>
-        {
 
-        }).AddErrorDescriber<PersianIdentityErrorDescriber>();
 
         // Add any other services needed for the application
 

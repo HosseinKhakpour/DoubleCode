@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using DoubleCode.Domain.Entity.User;
 using DoubleCode.Domain.Entity.Permissions;
+using DoubleCode.Application.Utilities.CustomizIdentity;
 
 namespace DoubleCode.Infrastructure;
 
@@ -29,7 +30,10 @@ public static class ConfigureServices
             option.UseSqlServer(configuration.GetConnectionString("DoubleCodeConnection"));
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddErrorDescriber<PersianIdentityErrorDescriber>();
 
         return services;
 
