@@ -16,18 +16,14 @@ public class RegisterUserCommand : IRequest<BaseResult_VM<bool>>
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, BaseResult_VM<bool>>
 {
     #region Property
-    private readonly ISecurityService _securityService;
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IMapper mapper;
     private readonly UserManager<User> userManager;
     #endregion
 
     #region Ctor
-    public RegisterUserCommandHandler(ISecurityService securityService, IApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
+    public RegisterUserCommandHandler( IMapper mapper, UserManager<User> userManager)
     {
-        _securityService = securityService;
-        _context = context;
-        _mapper = mapper;
+        this.mapper = mapper;
         this.userManager = userManager;
     }
     #endregion
@@ -37,7 +33,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
     {
         try
         {
-            User user = _mapper.Map<User>(request.RegisterUser_VM);
+            User user = mapper.Map<User>(request.RegisterUser_VM);
             var registerUser = await userManager.CreateAsync(user, request.RegisterUser_VM.Password);
 
             if (registerUser.Succeeded)
@@ -52,22 +48,17 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, B
 
             if (registerUser.Errors.Count() != 0)
             {
-                List<string> erroreMassage = new();
-                foreach (var error in registerUser.Errors)
-                {
-                    erroreMassage.Add(error.Description);
-                }
-                var bb = registerUser.Errors.ToList();
+                var errors = registerUser.Errors.Select(e => e.Description).ToList();
 
                 return new BaseResult_VM<bool>
                 {
                     Result = false,
                     Code = -1,
-                    Message = erroreMassage.First()
-
+                    Message = String.Join(" , ", errors)
                 };
             }
         }
+
         catch (Exception ex)
         {
             var m = ex.Message;

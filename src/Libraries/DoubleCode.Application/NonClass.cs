@@ -1,8 +1,5 @@
-﻿using DoubleCode.Application.Common.Interfaces;
-using DoubleCode.Domain.Base;
+﻿using DoubleCode.Domain.Base;
 using MediatR;
-
-namespace DoubleCode.Application;
 
 public class NonClass : IRequest<BaseResult_VM<bool>>
 {
@@ -10,13 +7,13 @@ public class NonClass : IRequest<BaseResult_VM<bool>>
 public class Handler : IRequestHandler<NonClass, BaseResult_VM<bool>>
 {
     #region Property
-    private readonly IApplicationDbContext _context;
+
     #endregion
 
     #region Ctor
-    public Handler(IApplicationDbContext context)
+    public Handler()
     {
-        _context = context;
+        
     }
     #endregion
 
